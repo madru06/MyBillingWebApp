@@ -1,0 +1,50 @@
+body{
+    font-family: Courier, monospace;
+    background-color: lightblue;
+}
+input { 
+    background-color: azure;
+    border: none !important;
+    border-bottom: 1px solid black !important;
+    outline-width: 0px;
+    border-radius: 0px !important;
+    margin-bottom: .5rem;
+}
+
+input[readonly]{
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid gray !important;
+    border-radius: 0px;
+    background-color: lightblue !important;
+}
+
+label{
+    font-weight: 600;
+    margin-bottom: .25rem;    
+}
+
+button:not(.btnTable){
+    box-shadow: .5rem;
+}
+
+hr{
+    margin: 1rem;
+}
+section{
+    margin-bottom: 1rem;
+}
+
+table{
+    overflow-x: scroll !important;
+    max-width: inherit !important;
+}
+.bg-info{
+    background-color: lightcyan !important;
+}
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:focus{
+    background-color: darkcyan;
+}
+.tdAmount{
+    text-align: right !important;
+}
