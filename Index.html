@@ -15,16 +15,16 @@
         <div class="row justify-content-between">
             <div class="col-12 col-md-4 mx-md-auto text-center">
                 <img src="src/images/logo.png" alt="" width="50" class="img-fluid mb-2">
-                <h1 class="fw-bold">INVOICE #700001</h1>
+                <h1 class="fw-bold">INVOICE # <span id="invoiceNumber">700001</span></h1>
             </div>
             <div class="col-12 col-md-4 pull-right">
                 <label for="" class="form-label">Company Name: </label>
                 <div class="input-group">
-                    <input class="form-control" type="text" readonly value="CASA RUIZ">
+                    <input id="inpCompany" class="form-control" type="text" readonly value="CASA RUIZ">
                 </div>
                 <label for="" class="form-label">Date: </label>
                 <div class="input-group">
-                    <input class="form-control" type="text" readonly value="03/03/2025">
+                    <input id="inpToday" class="form-control" type="text" readonly>
                 </div>
             </div>
         </div>
@@ -34,53 +34,59 @@
         <section class="row bg-info shadow py-2 rounded" id="shippingInfo">
             <div class="col-12 col-md-4">
                 <label for="" class="form-label">Shipping Date: </label>
-                <input class="form-control"type="date" class="form-control">
+                <input id="inpShippingDate" class="form-control" type="date" class="form-control">
             </div>
             <div class="col-12">
                 <label for="" class="form-label">Customer Name: </label>
-                <input class="form-control"type="text">
+                <input id="inpCustomerName" class="form-control"type="text" value="">
             </div>
             <div class="col-12">
                 <label for="" class="form-label">Address: </label>
-                <input class="form-control"type="text">
+                <input id="inpAddress" class="form-control"type="text" value="">
             </div>
             <div class="col-12 col-md-4">
                 <label for="" class="form-label">State: </label>
-                <input class="form-control"type="text">
+                <input id="inpState" class="form-control" type="text" value="">
             </div>
             <div class="col-12 col-md-4">
                 <label for="" class="form-label">City: </label>
-                <input class="form-control"type="text">
+                <input id="inpCity" class="form-control"type="text" value="">
             </div>
             <div class="col-12 col-md-4">
                 <label for="" class="form-label">ZIP: </label>
-                <input class="form-control"type="text">
+                <input id="inpZIP" class="form-control"type="text" value="">
             </div>
         </section>
         <hr>
         <section class="row bg-info shadow py-2 rounded" id="invoiceInfo" >
             <div class="col-12 col-md-8">
                 <label for="" class="form-label">Description: </label>
-                <input class="form-control"type="text">
+                <input class="form-control" id="inpDescription" type="text">
             </div>
             <div class="col-12 col-md-2">
                 <label for="" class="form-label">Price: </label>
-                <input class="form-control"type="number">
+                <input class="form-control" id="inpPrice" type="number" step="0.01" min="0.00">
             </div>
             <div class="col-12 col-md-2">
                 <label for="" class="form-label">Quantity: </label>
-                <input class="form-control"type="number">
+                <input class="form-control" id="inpQty" type="number"  step="0.01" min="0.00">
             </div>
             <br>
             <div class="col-12 my-2">
                 <div class="d-flex justify-content-end">
-                    <button class="btn border-dark rounded-pill m-1"><i class="fa fa-broom"></i> Clean</button>
-                    <button class="btn btn-primary border rounded-pill text-white m-1"><i class="fa fa-plus"></i> Add</button>
+                    <button id="btnClean" class="btn border-dark rounded-pill m-1">
+                        <i class="fa fa-broom"></i> 
+                        Clean
+                    </button>
+                    <button id="btnAdd" class="btn btn-primary border rounded-pill text-white m-1">
+                        <i class="fa fa-plus"></i> 
+                        Add
+                    </button>
                 </div>
             </div>
-            <div class="col-12 table-responsive table-sm">
+            <div class="col-12 table-responsive table-sm" id="tableContainer" hidden>
                 <table class="table table-striped table-info caption-top">
-                    <caption class="text-dark">Details</caption>
+                    <caption class="text-dark border-bottom">Detail</caption>
                     <thead class="">
                         <tr>
                             <th scope="col">Description</th>
@@ -89,34 +95,12 @@
                             <th scope="col" class="text-center">Amount</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td class="">loremada ipsum dolor</td>
-                            <td class="tdAmount">$400.00</td>
-                            <td class="text-center">2</td>
-                            <td class="tdAmount">
-                                <span class="align-self-stretch">$800.00</span>
-                                <button class="btn px-2 py-0 text-danger align-self-stretch">
-                                    <i class="fa fa-times"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="">lor asdha dakjemada ipsum dolor</td>
-                            <td class="tdAmount">$1,300.00</td>
-                            <td class="text-center">652</td>
-                            <td class="tdAmount">
-                                <span>$85,800.00</span>
-                                <button class="btn px-2 py-0 text-danger">
-                                    <i class="fa fa-times"></i>
-                                </button>
-                            </td>
-                        </tr>
+                    <tbody id="tableContent">
                     </tbody>
                     <tfoot class="bg-light">
                         <tr>
                             <th scope="row" colspan="3">Total</th>
-                            <th class="tdAmount px-5">$21,000.00</td>
+                            <th id="thTotal" class="px-5">$0.00</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -125,12 +109,12 @@
         </section>
         <section class="row py-2 rounded" id="ctas">
             <div class="col-12">
-                <div class="d-grid gap-2 d-md-flex d-md-justify-content-end">
-                    <button class="btn border-dark rounded-pill m-1 shadow" type="reset">
+                <div class="d-flex justify-content-end">
+                    <button id="btnCleanAll" class="btn border-dark rounded-pill m-1 shadow" style="background-color: lightcyan;" type="reset">
                         <i class="fa fa-broom"></i> 
                         Clean All
                     </button>
-                    <button class="btn btn-primary rounded-pill m-1 shadow" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button id="btnGenerate" class="btn btn-primary border-0 rounded-pill m-1 shadow">
                         <span class="fa fa-paper-plane"></span>
                         Generate
                     </button>
@@ -138,7 +122,13 @@
             </div>
         </section>
   
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+
             <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
@@ -175,18 +165,9 @@
         <hr>
     </footer>
 
-    <footer class="footer mt-auto py-3 text-center fw-bold text-secondary d-none d-md-none">
-        <br>
-        <br>
-        <br>
-        <br>
-        <hr>
-            <p class="fs-5 font-monospace fw-lighter">
-                My Billing System <span class="fa fa-copyright"></span> 2025. All Rights Reserved.
-            </p>
-            <small>By M. Ruiz</small>
-            <hr>
-    </footer>
+    <script src="js/declarations.js"></script>
+    <script src="js/invoices.js"></script>
+    <script src="js/billing.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  </body>
+</body>
 </html>
