@@ -17,6 +17,7 @@ let inpDescription = document.getElementById("inpDescription");
 let inpPrice = document.getElementById("inpPrice");
 let inpQty = document.getElementById("inpQty");
 
+let alertContainer = document.getElementById('alertContainer');
 let tableContainer = document.getElementById("tableContainer");
 let tableContent = document.getElementById("tableContent");
 let invoiceModal = document.getElementById('invoiceModal');

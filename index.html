@@ -31,7 +31,11 @@
     </header>
         <hr>
         <main class="container">
+            <div class="row" id="alertContainer">
+                
+            </div>
         <section class="row bg-info shadow py-2 rounded" id="shippingInfo">
+           
             <div class="col-12 col-md-4">
                 <label for="" class="form-label">Shipping Date: </label>
                 <input id="inpShippingDate" class="form-control" type="date" class="form-control">
@@ -69,7 +73,7 @@
             </div>
             <div class="col-12 col-md-2">
                 <label for="" class="form-label">Quantity: </label>
-                <input class="form-control" id="inpQty" type="number"  step="0.01" min="0.00">
+                <input class="form-control" id="inpQty" type="number"  step="1" min="1">
             </div>
             <br>
             <div class="col-12 my-2">
@@ -108,6 +112,7 @@
             
         </section>
         <section class="row py-2 rounded" id="ctas">
+            
             <div class="col-12">
                 <div class="d-flex justify-content-end">
                     <button id="btnCleanAll" class="btn border-dark rounded-pill m-1 shadow" style="background-color: lightcyan;" type="reset">
@@ -121,7 +126,6 @@
                 </div>
             </div>
         </section>
-  
         <div class="modal fade"
         id="exampleModal"
         tabindex="-1"
@@ -155,7 +159,9 @@
             </div>
             </div>
         </div>
+       
     </main>
+    
     <footer class="footer mt-auto py-3 text-center fw-bold text-secondary d-none d-md-block">
         <hr>
         <p class="fs-5 font-monospace fw-lighter">
@@ -169,10 +175,5 @@
     <script src="js/invoices.js"></script>
     <script src="js/billing.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<<<<<<< HEAD:Index.html
-</body>
-</html>
-=======
   </body>
 </html>
->>>>>>> 0aa550190787048e91ce930b1cf0bf75118d82cf:index.html

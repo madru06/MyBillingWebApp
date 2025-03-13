@@ -48,3 +48,12 @@ table{
 .tdAmount{
     text-align: right !important;
 }
+/*.alert{
+    position: fixed; 
+    top: 50%; 
+    left: 1rem;
+    right: 1rem;
+    width: 90%;
+    z-index:9999; 
+    border-radius:0px
+}*/

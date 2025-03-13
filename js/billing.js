@@ -17,43 +17,65 @@ function removeTablerow(el) {
 btnAdd.addEventListener("click", (ev)=>{
     ev.preventDefault();
     if (!hasValidValues(inpDescription) || !hasValidValues(inpPrice || !hasValidValues(inpQty))) {
-        alert("Fill all the values, u dummie!");
+        return fireAlert("Not enough data!", "warning");
     }
     let data = [inpDescription.value, Number(inpPrice.value), Number(inpQty.value), Number(inpPrice.value) * Number(inpQty.value)]
     addItem(data);
     tableContainer.hidden = false;
+    cleanInputs("#invoiceInfo > div > input");
     calcTotal();
 }, false);
 
 btnGenerate.addEventListener("click", (ev)=>{
     ev.preventDefault();
-    console.log("iniciando...")
-    /*if (!invoiceDataIsValid) {
-        alert("Not enough data!"); 
-        console.log("not enough...")
-        return false;
-    }*/
-    generateInvoice();
+    if (invoiceDataIsValid()){
+        console.log("data valida...")
+
+        generateInvoice();
+    }
 }, false);
 
-/* VALIDATORS */
+/* VALIDATORS AND ALERTS*/
 function hasValidValues(el) {
     let result = el.value !== "";
     return result;
 }
 
 function invoiceDataIsValid(){
-    let inputs = document.querySelectorAll("input");
+    
+    let inputs = document.querySelectorAll("#shippingInfo > div > input");
     inputs.forEach((x)=>{
         if(x.value === ""){
+            console.log("hay inputs vacios")
+            fireAlert("All fields are required!", "danger");
             return false;
         }
     });
-    return tableContent.childElementCount > 0;
+
+    if (tableContent.childElementCount < 1) {
+            console.log("nuay items")
+        fireAlert("Must add at least one item description", "warning");
+        return false;
+    }
+
+    return true;
 }
+
+function fireAlert(message, level){
+    let myAlert = `
+       <div class="alert alert-${level} text-center alert-dismissible fade show mx-auto" role="alert">
+            <span class="fa fa-exclamation-circle"></span> ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    `;
+    alertContainer.innerHTML = myAlert;
+    alertContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 
 /* GENERAL DOM FUNCTIONS */
 inpToday.value = new Date().toLocaleDateString();
+
 
 function cleanInputs(querySelector){
     let inputs = document.querySelectorAll(querySelector);
@@ -86,6 +108,9 @@ function calcTotal(){
     });
     thTotal.innerHTML = `$${totalAmount.toFixed(2)}`;
 }
+function increaseInvoiceNumber(){
+   invoiceNumber.innerHTML =  Number(invoiceNumber.innerText) + 1; 
+}
 function generateInvoice(){
     console.log("generating...")
 
@@ -115,4 +140,6 @@ function generateInvoice(){
     }
 
     console.log(invoiceData);
+    fireAlert("Invoice created!", "success");
+    increaseInvoiceNumber();
 }
