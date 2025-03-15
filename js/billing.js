@@ -1,3 +1,5 @@
+import { testPDF } from './invoicePDF.js';
+
 /* DOM LISTENERS */
 btnClean.addEventListener("click", (ev)=>{
     ev.preventDefault();
@@ -28,11 +30,36 @@ btnAdd.addEventListener("click", (ev)=>{
 
 btnGenerate.addEventListener("click", (ev)=>{
     ev.preventDefault();
-    if (invoiceDataIsValid()){
-        console.log("data valida...")
-
-        generateInvoice();
+    if (!invoiceDataIsValid()){
+        return fireAlert("Invalid data! Please fill all the required fields.", "danger");
     }
+
+    let items = [];
+    document.querySelectorAll("#tableContent > tr").forEach((x)=>{
+        let itemValues = [x.children[0].innerText, 
+            x.children[1].innerText, 
+            x.children[2].innerText, 
+            x.children[3].firstChild.innerText];
+        items.push(itemValues);
+    });
+
+    let invoiceData = {
+        invoiceNumber: Number(invoiceNumber.innerHTML),
+        companyName: inpCompany.value,
+        date: inpToday.value,
+        shippingDate: inpShippingDate.value,
+        customerName: inpCustomerName.value,
+        address: inpAddress.value,
+        state: inpState.value,
+        city: inpCity.value,
+        zip: inpZIP.value,
+        data: items,
+        totalAmount: document.getElementById("thTotal").innerText
+    }
+
+    testPDF(invoiceData);
+    increaseInvoiceNumber();
+    cleanInputs("input:not(:read-only)");
 }, false);
 
 /* VALIDATORS AND ALERTS*/
@@ -72,10 +99,9 @@ function fireAlert(message, level){
     alertContainer.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-
 /* GENERAL DOM FUNCTIONS */
-inpToday.value = new Date().toLocaleDateString();
-
+let today = new Date();
+inpToday.value = today.toLocaleDateString();
 
 function cleanInputs(querySelector){
     let inputs = document.querySelectorAll(querySelector);
@@ -83,22 +109,6 @@ function cleanInputs(querySelector){
     inputs.forEach((x)=>{
         x.value = "";
     });
-}
-function addItem(item) {
-    let newItem = `
-        <tr>
-            <td class="tdItem" data-value="${item[0]}">${item[0]}</td>
-            <td class="tdPrice" data-value="${item[1]}">$${item[1].toFixed(2)}</td>
-            <td class="tdQty text-center" data-value="${item[2]}">${item[2]}</td>
-            <td class="tdAmount" data-value="${item[3]}">
-                <span class="align-self-stretch" data-amount="${item[3].toFixed(2)}">$${item[3].toFixed(2)}</span>
-                <button class="btn px-2 py-0 text-danger align-self-stretch" onclick="removeTablerow(this)">
-                    <i class="fa fa-times"></i>
-                </button>
-            </td>
-        </tr>
-    `;
-    tableContent.innerHTML += newItem;
 }
 function calcTotal(){
     let amounts = document.querySelectorAll(".tdAmount > span");
@@ -111,35 +121,23 @@ function calcTotal(){
 function increaseInvoiceNumber(){
    invoiceNumber.innerHTML =  Number(invoiceNumber.innerText) + 1; 
 }
-function generateInvoice(){
-    console.log("generating...")
 
-    /*var myModal = new bootstrap.Modal(document.getElementById("exampleModal"), {});
-    document.onreadystatechange = function () {
-        myModal.show();
-    };
-    console.log("modal open!...")*/
-    let items = [];
-
-    document.querySelectorAll("#tableContent > tr").forEach((x)=>{
-        let itemValues = [x.children[0].dataset.value, x.children[1].dataset.value, x.children[2].dataset.value, x.children[3].dataset.value];
-        items.push(itemValues);
-    });
-
-    let invoiceData = {
-        invoiceNumber: Number(invoiceNumber.innerHTML),
-        companyName: inpCompany.value,
-        date: inpToday.value,
-        shippingDate: inpShippingDate.value,
-        customerName: inpCustomerName.value,
-        address: inpAddress.value,
-        state: inpState.value,
-        city: inpCity.value,
-        zip: inpZIP.value,
-        data: items
-    }
-
-    console.log(invoiceData);
-    fireAlert("Invoice created!", "success");
-    increaseInvoiceNumber();
+/* MAIN FUNCTIONS */
+function addItem(item) {
+    let newItem = `
+        <tr>
+            <td class="tdItem" data-value="${item[0]}">${item[0]}</td>
+            <td class="tdQty text-center" data-value="${item[2]}">${item[2]}</td>
+            <td class="tdPrice text-end" data-value="${item[1]}">$${item[1].toFixed(2)}</td>
+            <td class="tdAmount text-end" data-value="${item[3]}">
+                <span class="align-self-stretch" data-amount="${item[3].toFixed(2)}">$${item[3].toFixed(2)}</span>
+                <button class="btn px-2 py-0 text-danger align-self-stretch" onclick="removeTablerow(this)">
+                    <i class="fa fa-times"></i>
+                </button>
+            </td>
+        </tr>
+    `;
+    tableContent.innerHTML += newItem;
 }
+
+
